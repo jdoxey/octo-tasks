@@ -1,3 +1,8 @@
+# To Do
+# - include task files from other task files
+# - use namespaces for included files
+# - send task parameters
+# - don't pollute global namespace
 # Done
 # - ask for parameters
 # - check met?, call meet(), check met? again
@@ -8,9 +13,6 @@
 # - don't need met?
 # - help string for tasks (shows (in table) when you do "help")
 # - don't need "meet" if no "met?"
-# To Do
-# - send task parameters
-# - don't pollute global namespace
 
 $global:tasks = @{}
 
