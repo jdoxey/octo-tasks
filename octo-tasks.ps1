@@ -1,6 +1,5 @@
 # To Do
 # - include task files from other task files
-# - use namespaces for included files
 # - send task parameters
 # - don't pollute global namespace
 # Done
@@ -13,6 +12,7 @@
 # - don't need met?
 # - help string for tasks (shows (in table) when you do "help")
 # - don't need "meet" if no "met?"
+# - fail if false returned from task
 
 $global:tasks = @{}
 
@@ -105,11 +105,16 @@ function DoTask ($taskName, $indent = "") {
       }
     }
     # Do task
+    $task_return = $True
     if ($task.meet -ne $null) {
-      &($task.meet)
+      $task_return = &($task.meet)
     }
     # Check that it worked
-    if (($task.met -ne $null) -and !(&$task.met)) {
+    if ($task_return -eq $False) {
+      "octo-tasks: $indent[$($task.name)] ...task returned false, failing!"
+      exit 1
+    }
+    elseif (($task.met -ne $null) -and !(&$task.met)) {
       "octo-tasks: $indent[$($task.name)] ...still not met, failing!"
       exit 1
     }
