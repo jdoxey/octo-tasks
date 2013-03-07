@@ -2,6 +2,7 @@
 # - include task files from other task files
 # - send task parameters
 # - don't pollute global namespace
+# - dependency graph
 # Done
 # - ask for parameters
 # - check met?, call meet(), check met? again
@@ -105,12 +106,11 @@ function DoTask ($taskName, $indent = "") {
       }
     }
     # Do task
-    $task_return = $True
     if ($task.meet -ne $null) {
-      $task_return = &($task.meet)
+      &($task.meet)
     }
     # Check that it worked
-    if ($task_return -eq $False) {
+    if ($? -eq $False) {
       "octo-tasks: $indent[$($task.name)] ...task returned false, failing!"
       exit 1
     }
